@@ -1,4 +1,6 @@
 <?php
+session_start();
+require_once 'dbconnect.php';
 
 	 $DBhost = "localhost";
 	 $DBuser = "pho";

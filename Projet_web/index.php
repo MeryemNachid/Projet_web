@@ -1,3 +1,6 @@
+<?php
+include("dbconnect.php");
+?>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -21,7 +24,19 @@
 					<li><a href="#">Home</a></li>
 					<li><a href="#">Photographers</a></li>
 					<li><a href="#">Blog</a></li>
-					<li><a href="login.php">Sign up / Sign in</a></li>
+					<li>
+						<?php 
+							if(!(isset($_SESSION['userSession'])) || $_SESSION['userSession']==''){
+								?>
+								<a href="login.php">Sign in / Sign up</a>
+								<?php
+							} else {
+								?>
+								<a href="logout.php">Sign out</a>
+								<?php 
+							}
+						?>
+					</li>
 				</ul>
 			</nav>
 		</div>

@@ -1,9 +1,8 @@
 <?php
-session_start();
-require_once 'dbconnect.php';
+include("dbconnect.php");
 
 if (isset($_SESSION['userSession'])!="") {
-    header("Location: index.html");
+    header("Location: index.php");
     exit;
 }
 if(isset($_POST["signup"])) {
@@ -43,7 +42,7 @@ if (isset($_POST['login'])) {
     if (($password == $row['password']) && $count==1) {
         $_SESSION['userSession'] = $row['code'];
         $_SESSION['userNameSession'] = $row['nom'];
-        header("Location: index.html");
+        header("Location: index.php");
         die();
     } 
     else { echo "Wrong username or password"; }
