@@ -23,7 +23,7 @@ include("dbconnect.php");
 				<ul>
 					<li><a href="#">Home</a></li>
 					<li><a href="#">Photographers</a></li>
-					<li><a href="#">Blog</a></li>
+					<li><a href="blog.php">Blog</a></li>
 					<li>
 						<?php 
 							if(!(isset($_SESSION['userSession'])) || $_SESSION['userSession']==''){
