@@ -1,0 +1,106 @@
+<?php 
+include("dbconnect.php");
+$id_topic = $_POST['id_topic'];
+$init = $DBcon->query("SELECT title FROM thread LEFT JOIN users ON thread.id_author=users.code WHERE id_thread=$id_topic");
+$init=$init->fetch_assoc();
+$title = $init['title'];
+?>
+
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Blog</title>
+		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/style.css" rel="stylesheet">
+		<link href="css/blog.css" rel="stylesheet">
+	</head>
+
+	<body>
+		<header>
+		<div class="wrapper">
+			<h1>Slogan<span class="color">.</span></h1>
+			<nav>
+				<ul>
+					<li><a href="#">Home</a></li>
+					<li><a href="#">Photographers</a></li>
+					<li><a href="blog.php">Blog</a></li>
+					<li>
+						<?php 
+							if(!(isset($_SESSION['userSession'])) || $_SESSION['userSession']==''){
+								?>
+								<a href="login.php">Sign in / Sign up</a>
+								<?php
+							} else {
+								?>
+								<a href="logout.php">Sign out</a>
+								<?php 
+							}
+						?>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+	<div class="container">	
+			<div class="row" id="search">
+				<!-- SEARCH -->
+				<div class="col-lg-4">
+					<form method="post" action="blog.php">
+					<input class='button_1' name="search" type="search" placeholder="Search all topics" autocomplete="off"></input>
+					<input name="set" type="submit"></input>
+					</form>
+				</div>
+				<!--CREATE NEW TOPIC-->
+				<div class="col-lg-2">
+					<input class="button_2" value="Create new topic" type="button"></input>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-offset-2 col-lg-3">
+					<h3><?php print $title; ?></h3>
+				</div>
+			</div>
+			<?php
+			$results = $DBcon->query("SELECT nom, date_creation, content, rate FROM post LEFT JOIN users ON post.id_author=users.code WHERE id_thread=$id_topic ORDER BY date_creation");
+			$max=$results->num_rows;
+			if ($max>10) {
+				$max = 10;
+			}
+			for($i=0;$i<$max;$i++) {
+				$row=$results->fetch_assoc();
+				print '<div class="row results"><div class="row-heigth">';
+				print '<div class="col-lg-offset-2 col-lg-2 col-height"><div class="inside inside-full-height">
+				
+				<p>'.$row["nom"].'</p>
+				<p>'.$row["date_creation"].'</p>
+				
+				</div></div>
+
+				<div class="col-lg-5 col-height"><div class="inside inside-full-height">
+				
+				<p>'.$row["content"].'</p>
+				
+				</div></div>
+
+				<div class="col-lg-1 col-height"><div class="inside inside-full-height">
+				
+				<p>'.$row["rate"].'</p>
+				
+				</div></div>';
+				print '</div></div>';
+			}
+				?>
+		</div>
+
+
+
+
+
+
+		<footer>
+				<p>Copyright-2017 CompanyName. All rights reserved.</p>
+				<p><a href="#">Terms of Service</a> I <a href="#">Privacy</a></p>
+		</footer>
+	</body>
+</html>
